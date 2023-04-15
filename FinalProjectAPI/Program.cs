@@ -1,30 +1,16 @@
 using FinalProjectService.API.BackgroundServices;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
-
+using FinalProjectService.API.Controllers;
 var builder = WebApplication.CreateBuilder(args);
 
 Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
 // Add services to the container.
 builder.Services.AddControllers().AddControllersAsServices();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMvc();
 builder.Services.AddHealthChecks();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.CustomSchemaIds(type => type.FullName);
-    c.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Version = System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version.ToString(),
-        Title = "FinalProject"
-    });
-
-    var basePath = AppContext.BaseDirectory;
-    var commentFiles = Directory.GetFiles(basePath, "*API.xml");
-    foreach (var commentFile in commentFiles)
-    {
-        c.IncludeXmlComments(commentFile);
-    }
-});
+builder.Services.AddSwaggerGen();
 builder.Services.AddHostedService<FinalProjectBackgroundService>();
 var app = builder.Build();
 
@@ -43,7 +29,8 @@ app.UseRouting();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("swagger/v1/swagger.json", "Final Project");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    c.RoutePrefix = string.Empty;
 });
 
 app.UseEndpoints(endpoints =>

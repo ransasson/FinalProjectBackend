@@ -15,9 +15,11 @@ namespace FinalProjectService.API.Controllers
         {
             
         }
-        public override Task<ActionResult<ProcessImageResponse>> ProcessImage(ProcessImageRequest request)
+        public override async Task<ActionResult<ProcessImageResponse>> ProcessImage(ProcessImageRequest request)
         {
-            throw new NotImplementedException();
+            await Task.Yield();
+            ProcessImageResponse response = new ProcessImageResponse();
+            return Ok(response); 
         }
     }
 }
