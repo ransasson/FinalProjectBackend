@@ -1,4 +1,5 @@
 ﻿using FinalProjectContract.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,6 @@ namespace FinalProjectContract.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("ProcessImage")]
-        public abstract Task<ActionResult<ProcessImageResponse>> ProcessImage(ProcessImageRequest request);
+        public abstract Task<ActionResult<ProcessImageResponse>> ProcessImage(IFormFile image);
     }
 }

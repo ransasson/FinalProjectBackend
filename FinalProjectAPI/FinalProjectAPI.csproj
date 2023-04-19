@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FinalProjectBusinessLogic\FinalProjectBusinessLogic.csproj" />
     <ProjectReference Include="..\FinalProjectService.API\FinalProjectService.API.csproj" />
   </ItemGroup>
 

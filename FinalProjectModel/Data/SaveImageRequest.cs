@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinalProjectContract.Data
+namespace FinalProjectModel.Data
 {
-    public class ProcessImageRequest
+    public class SaveImageRequest
     {
         public IFormFile Image { get; set; }
     }

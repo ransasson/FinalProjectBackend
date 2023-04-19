@@ -2,6 +2,13 @@ using FinalProjectService.API.BackgroundServices;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using FinalProjectService.API.Controllers;
+using FinalProjectModel.Services;
+using FinalProjectBusinessLogic.Services;
+using FinalProjectModel.Workflows;
+using FinalProjectModel.Components;
+using FinalProjectBusinessLogic.Components;
+using FinalProjectBusinessLogic.Workflows;
+
 var builder = WebApplication.CreateBuilder(args);
 
 Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
@@ -12,6 +19,16 @@ builder.Services.AddMvc();
 builder.Services.AddHealthChecks();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHostedService<FinalProjectBackgroundService>();
+LoadDI(builder);
+
+static void LoadDI(WebApplicationBuilder builder)
+{
+    builder.Services.AddSingleton<IModelCaller, ModelCaller>();
+    builder.Services.AddSingleton<IImageSaver, ImageSaver>();
+    builder.Services.AddSingleton<IProcessImageWorkflow, ProcessImageWorkflow>();
+    builder.Services.AddSingleton<IImageProcessService, ImageProcessService>();
+}
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

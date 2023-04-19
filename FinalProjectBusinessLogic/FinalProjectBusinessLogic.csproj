@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinalProjectContract\FinalProjectContract.csproj" />
     <ProjectReference Include="..\FinalProjectModel\FinalProjectModel.csproj" />
   </ItemGroup>
 

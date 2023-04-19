@@ -1,5 +1,7 @@
 ﻿using FinalProjectContract.Controllers;
 using FinalProjectContract.Data;
+using FinalProjectModel.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,15 +13,30 @@ namespace FinalProjectService.API.Controllers
 {
     public class FinalProjectController : FinalProjectControllerBase
     {
-        public FinalProjectController()
+        private readonly IImageProcessService _finalProjectService;
+        public FinalProjectController(IImageProcessService finalProjectService)
         {
-            
+            _finalProjectService = finalProjectService;
         }
-        public override async Task<ActionResult<ProcessImageResponse>> ProcessImage(ProcessImageRequest request)
+        public override async Task<ActionResult<ProcessImageResponse>> ProcessImage(IFormFile image)
         {
-            await Task.Yield();
-            ProcessImageResponse response = new ProcessImageResponse();
-            return Ok(response); 
+            if(image == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                ProcessImageResponse response = _finalProjectService.ProcessImage(new ProcessImageRequest()
+                {
+                    Image = image
+                });
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+
+               return StatusCode(500, ex.Message);
+            }
         }
     }
 }
