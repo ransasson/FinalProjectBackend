@@ -19,11 +19,11 @@ namespace FinalProjectBusinessLogic.Workflows
             _imageSaver = imageSaver;
             _modelCaller = modelCaller;
         }
-        public ProcessImageResponse ProcessImage(ProcessImageRequest request)
+        public async Task<ProcessImageResponse> ProcessImage(ProcessImageRequest request)
         {
 			try
 			{
-                var saveImageResponse = _imageSaver.SaveImage(new SaveImageRequest()
+                var saveImageResponse = await _imageSaver.SaveImage(new SaveImageRequest()
                 {
                     Image = request.Image
                 });

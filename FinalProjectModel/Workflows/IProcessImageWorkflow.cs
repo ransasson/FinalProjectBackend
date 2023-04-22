@@ -9,6 +9,6 @@ namespace FinalProjectModel.Workflows
 {
     public interface IProcessImageWorkflow
     {
-        ProcessImageResponse ProcessImage (ProcessImageRequest request);
+        Task<ProcessImageResponse> ProcessImage (ProcessImageRequest request);
     }
 }

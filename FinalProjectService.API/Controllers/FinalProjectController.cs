@@ -26,7 +26,7 @@ namespace FinalProjectService.API.Controllers
             }
             try
             {
-                ProcessImageResponse response = _finalProjectService.ProcessImage(new ProcessImageRequest()
+                ProcessImageResponse response = await _finalProjectService.ProcessImage(new ProcessImageRequest()
                 {
                     Image = image
                 });

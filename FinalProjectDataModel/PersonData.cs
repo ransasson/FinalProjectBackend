@@ -10,5 +10,6 @@ namespace FinalProjectDataModel
     {
         public string Pose { get; set; }
         public Centroid Centroid { get; set; }
+        public float Probability { get; set; }
     }
 }

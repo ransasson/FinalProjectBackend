@@ -17,9 +17,9 @@ namespace FinalProjectBusinessLogic.Services
         {
             _processImageWorkflow = processImageWorkflow;
         }
-        public ProcessImageResponse ProcessImage(ProcessImageRequest request)
+        public async Task<ProcessImageResponse> ProcessImage(ProcessImageRequest request)
         {
-            return  _processImageWorkflow.ProcessImage(request);
+            return  await _processImageWorkflow.ProcessImage(request);
         }
     }
 }

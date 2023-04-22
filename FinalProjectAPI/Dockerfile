@@ -1,9 +1,10 @@
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal AS base
 
-# Install Python
-RUN apt update && apt install -y python3
+# Install Python and required packages
+RUN apt update && apt install -y python3 python3-pip
+RUN pip3 install tensorflow numpy scikit-learn
 
 # Add Python to PATH
 ENV PATH="/usr/bin/python:${PATH}"

@@ -9,6 +9,6 @@ namespace FinalProjectModel.Services
 {
     public interface IImageProcessService
     {
-        ProcessImageResponse ProcessImage(ProcessImageRequest request);
+        Task<ProcessImageResponse> ProcessImage(ProcessImageRequest request);
     }
 }

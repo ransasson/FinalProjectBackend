@@ -1,4 +1,5 @@
-﻿using FinalProjectModel.Components;
+﻿using FinalProjectBusinessLogic.Services;
+using FinalProjectModel.Components;
 using FinalProjectModel.Data;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,31 @@ namespace FinalProjectBusinessLogic.Components
 {
     public class ImageSaver : IImageSaver
     {
-        public SaveImageResponse SaveImage(SaveImageRequest request)
+		private readonly string _modelInputPath = "Prediction_Input";
+        public async Task<SaveImageResponse> SaveImage(SaveImageRequest request)
         {
-            return new SaveImageResponse()
-            {
-                ImagePath = "Path"
-            };
+			try
+			{
+				if(request?.Image!=null)
+				{
+					if(!Directory.Exists(_modelInputPath))
+					{
+						Directory.CreateDirectory(_modelInputPath);
+					}
+					var imagePath = Path.Combine(_modelInputPath, request.Image.FileName);
+                    using var fileStream = new FileStream(imagePath, FileMode.Create);
+                    await request.Image.CopyToAsync(fileStream);
+					return new SaveImageResponse()
+					{
+						ImagePath = imagePath
+					};
+                }
+				throw new Exception("Failed to save image! No image data was given!");
+			}
+			catch (Exception)
+			{
+				throw;
+			}
         }
     }
 }

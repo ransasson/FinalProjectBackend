@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -19,15 +19,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="people.json">
+    <None Update="Production_Model.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
+    </None>
     <None Update="pythonTest.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="openpose\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="SavedModel\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="openpose\output_json_folder\" />
+    <Folder Include="Prediction_Input\" />
+    <Folder Include="Prediction_Output\" />
+    <Folder Include="SavedModel\model\assets\" />
   </ItemGroup>
 
 </Project>

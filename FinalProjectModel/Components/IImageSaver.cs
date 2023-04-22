@@ -9,6 +9,6 @@ namespace FinalProjectModel.Components
 {
     public interface IImageSaver
     {
-        SaveImageResponse SaveImage(SaveImageRequest request);
+        Task<SaveImageResponse> SaveImage(SaveImageRequest request);
     }
 }
