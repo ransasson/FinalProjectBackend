@@ -348,3 +348,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+#openpose models are too big for github
+FinalProjectAPI/openpose/models/**
+/FinalProjectAPI/openpose
