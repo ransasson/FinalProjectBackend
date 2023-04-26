@@ -37,10 +37,7 @@ namespace FinalProjectBusinessLogic.Components
                 // Read the output from the Python script
                 string output = process.StandardOutput.ReadToEnd();
                 var error = process.StandardError.ReadToEnd();
-                //if(!string.IsNullOrEmpty(error))
-                //{
-                //    throw new Exception(error);
-                //}
+                
                 // Wait for the process to exit
                 process.WaitForExit();
                 if (!Directory.Exists(_outputFolderPath))
@@ -51,14 +48,14 @@ namespace FinalProjectBusinessLogic.Components
                 var file = files.FirstOrDefault();
                 if(file == null)
                 {
-                    throw new Exception("Failed to get people data! model produced no output file!");
+                    throw new Exception("Failed to get people data! model produced no output file! Python output: " + error);
                 }
                 var json_data = File.ReadAllText(file) ;
                 var people = JsonSerializer.Deserialize<List<PersonData>>(json_data, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
                 CleanUp();
                 if(people ==null)
                 {
-                    throw new Exception("Failed to get people data from python script!");
+                    throw new Exception("Failed to get people data from python script! Python output: " + error);
                 }
                 return new CallModelResponse()
                 {
