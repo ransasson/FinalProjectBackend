@@ -19,6 +19,9 @@ builder.Services.AddMvc();
 builder.Services.AddHealthChecks();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHostedService<FinalProjectBackgroundService>();
+builder.Services.AddCors(options =>
+ options.AddPolicy("CorsPolicy",
+ builderPolicy => builderPolicy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 LoadDI(builder);
 
 static void LoadDI(WebApplicationBuilder builder)
@@ -39,6 +42,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseCors("CorsPolicy");
 app.UseStaticFiles();
 
 app.UseRouting();
