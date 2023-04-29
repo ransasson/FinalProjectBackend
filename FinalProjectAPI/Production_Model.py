@@ -66,8 +66,14 @@ def nornamlize_vector(key_points):
     key_points -= centroid
     max_distance = np.max(np.sqrt(np.sum(key_points ** 2, axis=1)))
     key_points /= max_distance
-    return key_points.tolist(), centroid
+    return key_points.tolist()
 
+def get_pose_centroid(key_points):
+    valid_key_points = []
+    for key_point in key_points:
+        if(key_point[0] != 0 and key_point[1] != 0):
+            valid_key_points.append(key_point)
+    return np.mean(valid_key_points, axis=0)
 
 def normalize_json(folder):
     # while(len(os.listdir(folder))<2):
@@ -82,7 +88,8 @@ def normalize_json(folder):
         coordinates_vector = key_points.copy()
         del coordinates_vector[2::3]
         coordinates_vector = [(coordinates_vector[i], coordinates_vector[i+1]) for i in range(0, len(coordinates_vector), 2)]
-        normalized_coordinates, centroid = nornamlize_vector(coordinates_vector)
+        normalized_coordinates = nornamlize_vector(coordinates_vector)
+        centroid = get_pose_centroid(coordinates_vector)
         result = []
         for i in range(len(probabilites)):
             coordinate = normalized_coordinates[i]
