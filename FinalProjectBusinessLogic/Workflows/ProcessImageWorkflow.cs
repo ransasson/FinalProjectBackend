@@ -12,18 +12,18 @@ namespace FinalProjectBusinessLogic.Workflows
 {
     public class ProcessImageWorkflow : IProcessImageWorkflow
     {
-		private readonly IImageSaver _imageSaver;
+		private readonly ISessionHandler _sessionHendler;
 		private readonly IModelCaller _modelCaller;
-        public ProcessImageWorkflow(IImageSaver imageSaver,IModelCaller modelCaller)
+        public ProcessImageWorkflow(ISessionHandler imageSaver,IModelCaller modelCaller)
         {
-            _imageSaver = imageSaver;
+            _sessionHendler = imageSaver;
             _modelCaller = modelCaller;
         }
         public async Task<ProcessImageResponse> ProcessImage(ProcessImageRequest request)
         {
 			try
 			{
-                var saveImageResponse = await _imageSaver.SaveImage(new SaveImageRequest()
+                var saveImageResponse = await _sessionHendler.SaveImage(new SaveImageRequest()
                 {
                     Image = request.Image
                 });

@@ -21,5 +21,13 @@ namespace FinalProjectContract.Controllers
         [HttpPost]
         [Route("ProcessImage")]
         public abstract Task<ActionResult<ProcessImageResponse>> ProcessImage(IFormFile image);
+
+        [HttpGet]
+        [Route("GetAllSessions")]
+        public abstract Task<ActionResult<GetAllSessionsResponse>> GetAllSessions();
+
+        [HttpGet]
+        [Route("GetSession")]
+        public abstract Task<ActionResult<GetSessionResponse>> GetSession(string id);
     }
 }

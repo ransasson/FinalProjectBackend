@@ -27,8 +27,10 @@ LoadDI(builder);
 static void LoadDI(WebApplicationBuilder builder)
 {
     builder.Services.AddSingleton<IModelCaller, ModelCaller>();
-    builder.Services.AddSingleton<IImageSaver, ImageSaver>();
+    builder.Services.AddSingleton<ISessionHandler, SessionHandler>();
     builder.Services.AddSingleton<IProcessImageWorkflow, ProcessImageWorkflow>();
+    builder.Services.AddSingleton<IGetAllSessionsWorkflow, GetAllSessionsWorkflow>();
+    builder.Services.AddSingleton<IGetSessionWorkflow, GetSessionWorkflow>();
     builder.Services.AddSingleton<IImageProcessService, ImageProcessService>();
 }
 

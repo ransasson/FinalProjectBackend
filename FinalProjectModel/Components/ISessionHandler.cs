@@ -1,15 +1,16 @@
 ﻿using FinalProjectContract.Data;
+using FinalProjectModel.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinalProjectModel.Services
+namespace FinalProjectModel.Components
 {
-    public interface IImageProcessService
+    public interface ISessionHandler
     {
-        Task<ProcessImageResponse> ProcessImage(ProcessImageRequest request);
+        Task<SaveImageResponse> SaveImage(SaveImageRequest request);
         Task<GetAllSessionsResponse> GetAllSessions(GetAllSessionsRequest request);
         Task<GetSessionResponse> GetSession(GetSessionRequest request);
     }

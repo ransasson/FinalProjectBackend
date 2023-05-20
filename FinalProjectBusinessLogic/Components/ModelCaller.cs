@@ -40,19 +40,16 @@ namespace FinalProjectBusinessLogic.Components
                 
                 // Wait for the process to exit
                 process.WaitForExit();
-                if (!Directory.Exists(_outputFolderPath))
-                {
-                    Directory.CreateDirectory(_outputFolderPath);
-                }
-                var files = Directory.GetFiles(_outputFolderPath);
-                var file = files.FirstOrDefault();
+                
+                var files = Directory.GetFiles(Path.GetDirectoryName(request.ImagePath));
+                var file = files.Where(x => x.EndsWith("people.json")).FirstOrDefault();
                 if(file == null)
                 {
                     throw new Exception("Failed to get people data! model produced no output file! Python output: " + error);
                 }
                 var json_data = File.ReadAllText(file) ;
                 var people = JsonSerializer.Deserialize<List<PersonData>>(json_data, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-                CleanUp();
+                //CleanUp();
                 if(people ==null)
                 {
                     throw new Exception("Failed to get people data from python script! Python output: " + error);

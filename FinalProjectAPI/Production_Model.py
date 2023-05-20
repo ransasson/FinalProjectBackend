@@ -35,16 +35,16 @@ class PersonDataEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
     
 
-OpenPoseCommand = "start bin/OpenPoseDemo.exe --image_dir \"{input}\" --write_json \"{input}\" --render_pose 0 --display 0"
+OpenPoseCommand = "start bin/OpenPoseDemo.exe --image_dir \"{input}\" --write_json \"{output}\" --render_pose 0 --display 0"
 
 
 def run_openPose_on_image(filename):
     file_path = os.path.join(INPUT,filename)
     os.chdir(OPEN_POSE)
-    name = os.path.basename(file_path)
+    name = os.path.dirname(filename)
     cmd = OpenPoseCommand.format(
-        input=os.path.join("../", INPUT),
-        output=os.path.join("../", INPUT)
+        input=os.path.join("../", name),
+        output=os.path.join("../",name)
     )
     print("###comannd ===>   " + cmd + "\n")
 
@@ -97,14 +97,15 @@ def normalize_json(folder):
             result.append({"coordinate": coordinate,"probability": probability})
         person["pose_keypoints_2d"] = result
         people.append(PersonData("",int(centroid[0]),int(centroid[1]),0))
-    json.dump(file_data, open(os.path.join(INPUT, file.name)+"_normalized.json","w"))
+    json.dump(file_data, open(os.path.join(folder, file.name)+"_normalized.json","w"))
     return people
 
 
 def preprocess_image(image_path):
     # run the image through openpose
     run_openPose_on_image(image_path)
-    return normalize_json(INPUT)
+    dirname = os.path.dirname(image_path)
+    return normalize_json(dirname)
      
 
 def get_position_data(folder):
@@ -126,9 +127,9 @@ def get_position_data(folder):
 def restore_pose_by_index(index):
     pass
 
-def use_model(model_path,people,int_to_label):
+def use_model(model_path,people,int_to_label,dirname):
     model = tf.keras.models.load_model(model_path)
-    people_position_data = get_position_data(INPUT)
+    people_position_data = get_position_data(dirname)
     for i,person_data in enumerate(people_position_data):
         df = np.array(person_data).reshape(1, 75)
         predictions = model.predict(df)
@@ -146,10 +147,15 @@ def save_predictions(people,output_folder):
         json.dump([vars(person_data) for person_data in people], f, indent=4,cls=PersonDataEncoder)   
 
 def clean_up_files(input_folder):
-    file_list = os.listdir(input_folder)
-    for file_name in file_list:
-        file_path = os.path.join(input_folder, file_name)  # Get the full path to the file
-        os.remove(file_path)  # Delete the file
+    files = os.scandir(input_folder)
+    files = list(filter(lambda x : x.name.endswith(".json") and not x.name.endswith("people.json"),files))
+    for file in files:
+        os.remove(file)
+
+    #file_list = os.listdir(input_folder)
+    #for file_name in file_list:
+     #   file_path = os.path.join(input_folder, file_name)  # Get the full path to the file
+     #   os.remove(file_path)  # Delete the file
 
 if __name__ == '__main__':
     # check if the program was run with the correct number of arguments
@@ -158,14 +164,15 @@ if __name__ == '__main__':
         sys.exit(1)
 
     image_path = sys.argv[1]
+    dirname = os.path.dirname(image_path)
 # Load label-to-index and index-to-label mappings from file
     with open('mappings.json', 'r') as f:
         mappings = json.load(f)
     label_to_int = mappings['label_to_int']
     int_to_label = mappings['int_to_label']
-    if(len(os.listdir(INPUT))>0):
+    if(len(os.listdir(dirname))>0):
         people = preprocess_image(image_path)
-        use_model(MODEL_PATH,people,int_to_label)
-        save_predictions(people,OUTPUT)
-        clean_up_files(INPUT)
+        people = use_model(MODEL_PATH,people,int_to_label,dirname)
+        save_predictions(people,dirname)
+        clean_up_files(dirname)
     

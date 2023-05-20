@@ -18,6 +18,33 @@ namespace FinalProjectService.API.Controllers
         {
             _finalProjectService = finalProjectService;
         }
+
+        public override async Task<ActionResult<GetAllSessionsResponse>> GetAllSessions()
+        {
+            try
+            {
+                var response = await _finalProjectService.GetAllSessions(new GetAllSessionsRequest());
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        public override async Task<ActionResult<GetSessionResponse>> GetSession(string id)
+        {
+            try
+            {
+                var response = await _finalProjectService.GetSession(new GetSessionRequest() { SessionId = id});
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         public override async Task<ActionResult<ProcessImageResponse>> ProcessImage(IFormFile image)
         {
             if(image == null)
