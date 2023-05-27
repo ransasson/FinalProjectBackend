@@ -10,6 +10,7 @@ namespace FinalProjectDataModel
     {
         public SessionIdentifier SessionIdentifier { get; set; }
         public List<PersonData> People { get; set; }
-        public byte[] ImageData { get; set; }
+        public string ImagePath { get; set; }
+        public string ImageName { get; set; }
     }
 }

@@ -55,7 +55,7 @@ namespace FinalProjectBusinessLogic.Components
 					{
 						throw new Exception($"Data for {request.SessionId} does not exist");
 					}
-					var imageData = File.ReadAllBytes(imagePath);
+					var fullImagePath = Path.GetFullPath(imagePath);
                     var json_data = File.ReadAllText(jsonPath);
                     var people = JsonSerializer.Deserialize<List<PersonData>>(json_data, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 					response.SessionDetails = new SessionDetails()
@@ -65,8 +65,9 @@ namespace FinalProjectBusinessLogic.Components
 							Id = Path.GetFileName(selectedSession)
 						},
 						People = people,
-						ImageData = imageData
-					};
+                        ImagePath = fullImagePath,
+						ImageName = Path.GetFileName(imagePath)
+                    };
 					
                 }
                 return response;
