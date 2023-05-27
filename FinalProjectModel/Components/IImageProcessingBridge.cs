@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FinalProjectModel.Components
 {
-    public interface IModelCaller
+    public interface IImageProcessingBridge
     {
         CallModelResponse CallModel(CallModelRequest request);
     }

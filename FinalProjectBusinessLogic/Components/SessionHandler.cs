@@ -78,7 +78,7 @@ namespace FinalProjectBusinessLogic.Components
 			}
         }
 
-        public async Task<SaveImageResponse> SaveImage(SaveImageRequest request)
+        public async Task<StartSessionResponse> StartSession(StartSessionRequest request)
         {
 			try
 			{
@@ -93,7 +93,7 @@ namespace FinalProjectBusinessLogic.Components
 					var imagePath = Path.Combine(sessionPath,request.Image.FileName);
                     using var fileStream = new FileStream(imagePath, FileMode.Create);
                     await request.Image.CopyToAsync(fileStream);
-					return new SaveImageResponse()
+					return new StartSessionResponse()
 					{
 						ImagePath = imagePath
 					};

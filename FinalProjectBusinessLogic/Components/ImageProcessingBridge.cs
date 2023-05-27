@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FinalProjectBusinessLogic.Components
 {
-    public class ModelCaller : IModelCaller
+    public class ImageProcessingBridge : IImageProcessingBridge
     {
         private readonly string _outputFolderPath = "Prediction_Output";
         private readonly string _pythonModelPath = "Production_Model.py";
